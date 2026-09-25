@@ -1,0 +1,11 @@
+{
+  "name": "HIGH EDUC26",
+  "description": "Cross-platform high school tutoring and study resource hub with verified student IDs, tutor ratings, live video sessions, MTN/Airtel/Centenary Bank payments, offline materials, and progress tracking.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
