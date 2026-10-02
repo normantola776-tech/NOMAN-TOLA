@@ -29,6 +29,7 @@ interface Props {
   user: UserProfile;
   onPaySession: (session: TutoringSession) => void;
   onEnterClassroom: (session: TutoringSession) => void;
+  onRequestRegister?: () => void;
   paidSessionIds: number[];
 }
 
@@ -36,6 +37,7 @@ export const SpecialSessionsList: React.FC<Props> = ({
   user,
   onPaySession,
   onEnterClassroom,
+  onRequestRegister,
   paidSessionIds,
 }) => {
   const [sessions, setSessions] = useState<TutoringSession[]>([]);
@@ -179,16 +181,40 @@ export const SpecialSessionsList: React.FC<Props> = ({
         <div className="flex flex-wrap items-center justify-between gap-2 border-b border-white/10 pb-2.5">
           <div className="flex items-center gap-2 font-bold text-xs">
             <Sparkles className="w-4 h-4 text-amber-400" />
-            <span>Official Lesson Pricing Standard:</span>
+            <span>Official High School Lesson Pricing Standard:</span>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex flex-wrap items-center gap-2">
             <span className="px-2.5 py-1 bg-purple-500/20 text-purple-300 border border-purple-400/30 rounded-lg text-[11px] font-bold">
-              Science Lessons: UGX {OFFICIAL_PAYMENT_CONFIG.scienceHourlyRate.toLocaleString()}/hr
+              Science Sessions: UGX 10,000 per 1 1/2 hr
             </span>
             <span className="px-2.5 py-1 bg-emerald-500/20 text-emerald-300 border border-emerald-400/30 rounded-lg text-[11px] font-bold">
-              Arts Sessions: UGX {OFFICIAL_PAYMENT_CONFIG.artsHourlyRate.toLocaleString()}/hr
+              Arts Sessions: UGX 8,000 per 1 1/2 hr
             </span>
           </div>
+        </div>
+
+        {/* First-Time Student Bonus Banner */}
+        <div className="bg-gradient-to-r from-amber-500/20 to-orange-500/10 border border-amber-400/30 rounded-xl p-2.5 flex items-center justify-between gap-2">
+          <div className="flex items-center gap-2">
+            <span className="text-base">🎁</span>
+            <div>
+              <span className="font-bold text-amber-300 block text-xs">
+                First-Time Student Bonus Offer
+              </span>
+              <span className="text-[11px] text-slate-300">
+                First-time students receive <strong>1 FREE Bonus 1 1/2 hr Session</strong> automatically after their first session booking!
+              </span>
+            </div>
+          </div>
+          {onRequestRegister && (
+            <button
+              type="button"
+              onClick={onRequestRegister}
+              className="px-3 py-1 bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold text-[11px] rounded-lg transition-all shrink-0 cursor-pointer"
+            >
+              Create Student Account
+            </button>
+          )}
         </div>
 
         <div className="flex flex-wrap items-center justify-between gap-3 text-[11px] text-slate-300">
@@ -216,7 +242,7 @@ export const SpecialSessionsList: React.FC<Props> = ({
             </div>
           </div>
           <span className="text-[10px] text-slate-400 hidden md:inline">
-            Automated instant room unlock upon confirmation
+            Direct notification transmitted to normantola776@gmail.com
           </span>
         </div>
       </div>
@@ -263,7 +289,7 @@ export const SpecialSessionsList: React.FC<Props> = ({
                 : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50'
             }`}
           >
-            Science Lessons (UGX 10,000/hr)
+            Science Sessions (UGX 10,000 / 1 1/2 hr)
           </button>
           <button
             onClick={() => setTrackFilter('Arts')}
@@ -273,7 +299,7 @@ export const SpecialSessionsList: React.FC<Props> = ({
                 : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50'
             }`}
           >
-            Arts Sessions (UGX 8,000/hr)
+            Arts Sessions (UGX 8,000 / 1 1/2 hr)
           </button>
         </div>
       </div>
@@ -318,7 +344,7 @@ export const SpecialSessionsList: React.FC<Props> = ({
                             : 'bg-emerald-50 text-emerald-700 border border-emerald-200'
                         }`}
                       >
-                        {track} • UGX {standardRate.toLocaleString()}/hr
+                        {track} • UGX {session.price.toLocaleString()} / 1 1/2 hr
                       </span>
                       <span className="flex items-center gap-1 text-[11px] font-medium text-slate-500">
                         <Clock className="w-3.5 h-3.5 text-slate-400" />

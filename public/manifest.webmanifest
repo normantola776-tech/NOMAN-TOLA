@@ -1,0 +1,33 @@
+{
+  "id": "/",
+  "name": "Edura High School Tutoring",
+  "short_name": "EduraHigh",
+  "description": "Cross-platform high school tutoring and study resource hub with verified student IDs, tutor ratings, live video sessions, MTN/Airtel/Centenary Bank payments, offline materials, and progress tracking.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "theme_color": "#1d4ed8",
+  "background_color": "#f8fafc",
+  "categories": ["education", "productivity"],
+  "icons": [
+    {
+      "src": "/pwa-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/pwa-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/pwa-maskable-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

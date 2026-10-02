@@ -25,6 +25,7 @@ export const PaymentModal: React.FC<Props> = ({
 }) => {
   const [selectedMethod, setSelectedMethod] = useState<'MTN' | 'Airtel' | 'Centenary Bank'>('MTN');
   const [studentPhone, setStudentPhone] = useState('+256 700 000 000');
+  const [useBonusVoucher, setUseBonusVoucher] = useState(false);
   const [copiedNumber, setCopiedNumber] = useState(false);
   const [processing, setProcessing] = useState(false);
   const [step, setStep] = useState<'details' | 'authenticating' | 'confirmed'>('details');
@@ -32,15 +33,17 @@ export const PaymentModal: React.FC<Props> = ({
 
   if (!isOpen) return null;
 
+  const track = getSubjectTrack(session.subject);
+  const hasBonusAvailable = (user.bonusSessionsCount ?? 0) > 0;
+  const isSci = track === 'Science';
+  const effectivePrice = useBonusVoucher ? 0 : session.price;
+
   const activeOfficialNumber =
     selectedMethod === 'MTN'
       ? OFFICIAL_PAYMENT_CONFIG.mtnNumber
       : selectedMethod === 'Airtel'
       ? OFFICIAL_PAYMENT_CONFIG.airtelNumber
       : OFFICIAL_PAYMENT_CONFIG.centenaryAccount;
-
-  const track = getSubjectTrack(session.subject);
-  const standardHourlyRate = getStandardHourlyRate(session.subject);
 
   const handleCopy = () => {
     navigator.clipboard?.writeText(activeOfficialNumber);
@@ -54,7 +57,7 @@ export const PaymentModal: React.FC<Props> = ({
 
     try {
       // Simulate gateway authorization handshake with telecom switch
-      await new Promise((r) => setTimeout(r, 1200));
+      await new Promise((r) => setTimeout(r, 1000));
 
       const res = await fetch('/api/sessions/book-pay', {
         method: 'POST',
@@ -63,15 +66,17 @@ export const PaymentModal: React.FC<Props> = ({
           sessionId: session.id,
           studentId: user.id,
           studentName: user.fullName,
-          paymentMethod:
-            selectedMethod === 'MTN'
-              ? 'MTN Mobile Money'
-              : selectedMethod === 'Airtel'
-              ? 'Airtel Money'
-              : 'Centenary Bank Pesa',
-          amount: session.price,
+          paymentMethod: useBonusVoucher
+            ? 'First-Time Bonus Voucher (100% Free)'
+            : selectedMethod === 'MTN'
+            ? 'MTN Mobile Money'
+            : selectedMethod === 'Airtel'
+            ? 'Airtel Money'
+            : 'Centenary Bank Pesa',
+          amount: effectivePrice,
           accountNumberOrPhone: activeOfficialNumber,
           payerPhone: studentPhone,
+          useBonusSession: useBonusVoucher,
         }),
       });
 
@@ -127,83 +132,126 @@ export const PaymentModal: React.FC<Props> = ({
                         : 'bg-emerald-100 text-emerald-800 border border-emerald-200'
                     }`}
                   >
-                    {track} Track • UGX {standardHourlyRate.toLocaleString()}/hr
+                    {track} Track • UGX {session.price.toLocaleString()} / 1 1/2 hr (90 min)
                   </span>
                 </div>
                 <span className="text-lg font-black text-slate-900">
-                  UGX {session.price.toLocaleString()}
+                  {useBonusVoucher ? (
+                    <span className="text-emerald-600">FREE (0 UGX)</span>
+                  ) : (
+                    `UGX ${session.price.toLocaleString()}`
+                  )}
                 </span>
               </div>
               <h4 className="font-semibold text-sm text-slate-900">{session.title}</h4>
               <p className="text-xs text-slate-500">
-                Duration: {session.durationMinutes} mins • High-Definition Video & Live Audio
+                Duration: {session.durationMinutes} mins (1 1/2 hr) • High-Definition Video & Live Audio
               </p>
             </div>
 
-            {/* Gateway Selection */}
-            <div>
-              <label className="block text-xs font-semibold text-slate-700 mb-2">
-                Select Official Payment Method
-              </label>
-              <div className="grid grid-cols-3 gap-2.5">
-                {/* MTN */}
+            {/* First-Time Bonus Voucher Application or Notice */}
+            {hasBonusAvailable ? (
+              <div className="p-3.5 bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-300 rounded-2xl flex items-center justify-between shadow-xs">
+                <div className="flex items-center gap-2.5">
+                  <div className="p-2 bg-amber-500 text-white rounded-xl">
+                    <Sparkles className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <h5 className="font-bold text-xs text-amber-950">
+                      1 Free Bonus Session Voucher Available!
+                    </h5>
+                    <p className="text-[11px] text-amber-800">
+                      Awarded from your first order. Redeem now for 100% free access!
+                    </p>
+                  </div>
+                </div>
                 <button
                   type="button"
-                  onClick={() => setSelectedMethod('MTN')}
-                  className={`p-3 rounded-2xl border text-center transition-all flex flex-col items-center gap-1.5 ${
-                    selectedMethod === 'MTN'
-                      ? 'border-amber-500 bg-amber-50/70 ring-2 ring-amber-400'
-                      : 'border-slate-200 hover:border-slate-300 bg-white'
+                  onClick={() => setUseBonusVoucher(!useBonusVoucher)}
+                  className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                    useBonusVoucher
+                      ? 'bg-emerald-600 text-white shadow-xs'
+                      : 'bg-white border border-amber-400 text-amber-900 hover:bg-amber-100'
                   }`}
                 >
-                  <div className="w-9 h-9 rounded-full bg-amber-400 text-slate-950 font-black text-xs flex items-center justify-center shadow-xs">
-                    MTN
-                  </div>
-                  <span className="text-xs font-bold text-slate-900">MTN MoMo</span>
-                  <span className="text-[10px] font-mono text-slate-600 font-semibold">
-                    {OFFICIAL_PAYMENT_CONFIG.mtnNumber}
-                  </span>
-                </button>
-
-                {/* Airtel */}
-                <button
-                  type="button"
-                  onClick={() => setSelectedMethod('Airtel')}
-                  className={`p-3 rounded-2xl border text-center transition-all flex flex-col items-center gap-1.5 ${
-                    selectedMethod === 'Airtel'
-                      ? 'border-red-500 bg-red-50/70 ring-2 ring-red-400'
-                      : 'border-slate-200 hover:border-slate-300 bg-white'
-                  }`}
-                >
-                  <div className="w-9 h-9 rounded-full bg-red-600 text-white font-black text-xs flex items-center justify-center shadow-xs">
-                    Airtel
-                  </div>
-                  <span className="text-xs font-bold text-slate-900">Airtel Money</span>
-                  <span className="text-[10px] font-mono text-slate-600 font-semibold">
-                    {OFFICIAL_PAYMENT_CONFIG.airtelNumber}
-                  </span>
-                </button>
-
-                {/* Centenary Bank */}
-                <button
-                  type="button"
-                  onClick={() => setSelectedMethod('Centenary Bank')}
-                  className={`p-3 rounded-2xl border text-center transition-all flex flex-col items-center gap-1.5 ${
-                    selectedMethod === 'Centenary Bank'
-                      ? 'border-blue-600 bg-blue-50/80 ring-2 ring-blue-400'
-                      : 'border-slate-200 hover:border-slate-300 bg-white'
-                  }`}
-                >
-                  <div className="w-9 h-9 rounded-full bg-blue-700 text-white font-black text-xs flex items-center justify-center shadow-xs">
-                    <Building2 className="w-4 h-4" />
-                  </div>
-                  <span className="text-xs font-bold text-slate-900">Centenary</span>
-                  <span className="text-[10px] font-mono text-slate-600 font-semibold">
-                    3205303331
-                  </span>
+                  {useBonusVoucher ? '✓ Voucher Applied' : 'Apply Voucher'}
                 </button>
               </div>
-            </div>
+            ) : (
+              <div className="p-3 bg-blue-50 border border-blue-200 rounded-2xl flex items-center gap-2.5 text-xs text-blue-900">
+                <Sparkles className="w-4 h-4 text-blue-600 shrink-0" />
+                <span>
+                  <strong>First-Time Student Bonus:</strong> Complete this session order to automatically receive <strong>1 FREE Bonus 1 1/2 hr Session Voucher</strong> on your account!
+                </span>
+              </div>
+            )}
+
+            {/* Gateway Selection (Only needed if not paying via free bonus voucher) */}
+            {!useBonusVoucher && (
+              <div>
+                <label className="block text-xs font-semibold text-slate-700 mb-2">
+                  Select Official Payment Method
+                </label>
+                <div className="grid grid-cols-3 gap-2.5">
+                  {/* MTN */}
+                  <button
+                    type="button"
+                    onClick={() => setSelectedMethod('MTN')}
+                    className={`p-3 rounded-2xl border text-center transition-all flex flex-col items-center gap-1.5 ${
+                      selectedMethod === 'MTN'
+                        ? 'border-amber-500 bg-amber-50/70 ring-2 ring-amber-400'
+                        : 'border-slate-200 hover:border-slate-300 bg-white'
+                    }`}
+                  >
+                    <div className="w-9 h-9 rounded-full bg-amber-400 text-slate-950 font-black text-xs flex items-center justify-center shadow-xs">
+                      MTN
+                    </div>
+                    <span className="text-xs font-bold text-slate-900">MTN MoMo</span>
+                    <span className="text-[10px] font-mono text-slate-600 font-semibold">
+                      {OFFICIAL_PAYMENT_CONFIG.mtnNumber}
+                    </span>
+                  </button>
+
+                  {/* Airtel */}
+                  <button
+                    type="button"
+                    onClick={() => setSelectedMethod('Airtel')}
+                    className={`p-3 rounded-2xl border text-center transition-all flex flex-col items-center gap-1.5 ${
+                      selectedMethod === 'Airtel'
+                        ? 'border-red-500 bg-red-50/70 ring-2 ring-red-400'
+                        : 'border-slate-200 hover:border-slate-300 bg-white'
+                    }`}
+                  >
+                    <div className="w-9 h-9 rounded-full bg-red-600 text-white font-black text-xs flex items-center justify-center shadow-xs">
+                      Airtel
+                    </div>
+                    <span className="text-xs font-bold text-slate-900">Airtel Money</span>
+                    <span className="text-[10px] font-mono text-slate-600 font-semibold">
+                      {OFFICIAL_PAYMENT_CONFIG.airtelNumber}
+                    </span>
+                  </button>
+
+                  {/* Centenary Bank */}
+                  <button
+                    type="button"
+                    onClick={() => setSelectedMethod('Centenary Bank')}
+                    className={`p-3 rounded-2xl border text-center transition-all flex flex-col items-center gap-1.5 ${
+                      selectedMethod === 'Centenary Bank'
+                        ? 'border-blue-600 bg-blue-50/80 ring-2 ring-blue-400'
+                        : 'border-slate-200 hover:border-slate-300 bg-white'
+                    }`}
+                  >
+                    <div className="w-9 h-9 rounded-full bg-blue-700 text-white font-black text-xs flex items-center justify-center shadow-xs">
+                      <Building2 className="w-4 h-4" />
+                    </div>
+                    <span className="text-xs font-bold text-slate-900">Centenary</span>
+                    <span className="text-[10px] font-mono text-slate-600 font-semibold">
+                      3205303331
+                    </span>
+                  </button>
+                </div>
+              </div>
+            )}
 
             {/* Official Receiver Details Banner */}
             <div
@@ -279,9 +327,13 @@ export const PaymentModal: React.FC<Props> = ({
                 type="button"
                 onClick={handlePay}
                 disabled={processing}
-                className="w-full py-3.5 bg-blue-600 hover:bg-blue-700 text-white rounded-2xl font-semibold text-sm shadow-lg shadow-blue-500/25 transition-all flex items-center justify-center gap-2"
+                className="w-full py-3.5 bg-blue-600 hover:bg-blue-700 text-white rounded-2xl font-semibold text-sm shadow-lg shadow-blue-500/25 transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
               >
-                <span>Authorize & Pay UGX {session.price.toLocaleString()}</span>
+                <span>
+                  {useBonusVoucher
+                    ? 'Redeem Free 1 1/2 hr Session (UGX 0)'
+                    : `Authorize & Pay UGX ${session.price.toLocaleString()} (${track} • 1 1/2 hr)`}
+                </span>
                 <ArrowRight className="w-4 h-4" />
               </button>
             </div>
@@ -298,12 +350,12 @@ export const PaymentModal: React.FC<Props> = ({
             </div>
             <div>
               <h4 className="text-base font-bold text-slate-900">
-                Authorizing with {selectedMethod}...
+                {useBonusVoucher ? 'Redeeming Bonus Session Pass...' : `Authorizing with ${selectedMethod}...`}
               </h4>
               <p className="text-xs text-slate-500 mt-1 max-w-xs">
-                Requesting authorization to destination{' '}
-                <span className="font-mono font-bold text-slate-800">{activeOfficialNumber}</span>.
-                Please approve on your phone.
+                {useBonusVoucher
+                  ? 'Verifying first-time student voucher allocation...'
+                  : `Requesting authorization to destination ${activeOfficialNumber}. Please approve on your phone.`}
               </p>
             </div>
           </div>
@@ -316,11 +368,26 @@ export const PaymentModal: React.FC<Props> = ({
             </div>
 
             <div>
-              <h4 className="text-lg font-bold text-slate-900">Payment Approved!</h4>
+              <h4 className="text-lg font-bold text-slate-900">Payment Approved & Pass Unlocked!</h4>
               <p className="text-xs text-slate-500 mt-1">
-                Your special session video & audio pass has been unlocked.
+                Your 1 1/2 hr special session video & audio room is now active.
               </p>
             </div>
+
+            {/* First-time bonus badge if awarded */}
+            {confirmationData?.firstOrderBonusGranted && (
+              <div className="p-3 bg-amber-50 border border-amber-300 rounded-2xl text-left flex items-center gap-3">
+                <span className="text-xl">🎁</span>
+                <div>
+                  <h5 className="font-bold text-xs text-amber-950">
+                    First Order Bonus Awarded!
+                  </h5>
+                  <p className="text-[11px] text-amber-800">
+                    1 Free Bonus Session Voucher has been credited to your student account for your next class!
+                  </p>
+                </div>
+              </div>
+            )}
 
             <div className="bg-slate-50 rounded-2xl p-4 text-left border border-slate-200 space-y-2 text-xs">
               <div className="flex justify-between">
@@ -338,13 +405,19 @@ export const PaymentModal: React.FC<Props> = ({
               <div className="flex justify-between">
                 <span className="text-slate-500">Official Channel:</span>
                 <span className="font-mono font-semibold text-slate-700">
-                  {selectedMethod} ({activeOfficialNumber})
+                  {useBonusVoucher ? 'Bonus Voucher (Free)' : `${selectedMethod} (${activeOfficialNumber})`}
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="text-slate-500">Pricing Applied:</span>
+                <span className="text-slate-500">Official Pricing:</span>
                 <span className="font-medium text-slate-700">
-                  {track} Track (UGX {standardHourlyRate.toLocaleString()}/hr)
+                  {track} Track (UGX {session.price.toLocaleString()} / 1 1/2 hr)
+                </span>
+              </div>
+              <div className="flex justify-between border-t border-slate-200 pt-1.5 text-[11px]">
+                <span className="text-slate-500">Notification Dispatch:</span>
+                <span className="font-semibold text-blue-700">
+                  Sent to normantola776@gmail.com
                 </span>
               </div>
             </div>

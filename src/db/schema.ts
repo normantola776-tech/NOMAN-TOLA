@@ -10,6 +10,11 @@ export const users = pgTable('users', {
   role: text('role').notNull().default('student'), // 'student', 'tutor', 'creator'
   gradeLevel: text('grade_level').default('Senior 4 (Grade 10)'),
   schoolName: text('school_name').default('High School'),
+  nationality: text('nationality').default('Ugandan'),
+  sector: text('sector').default('Both'), // 'Science', 'Art', 'Both'
+  bonusSessionsCount: integer('bonus_sessions_count').default(0),
+  hasFirstTimeBonus: boolean('has_first_time_bonus').default(false),
+  ordersCount: integer('orders_count').default(0),
   idCardVerified: boolean('id_card_verified').default(false),
   idCardPhotoUrl: text('id_card_photo_url'),
   bio: text('bio'),
@@ -27,6 +32,10 @@ export const tutors = pgTable('tutors', {
   rating: integer('rating').notNull().default(48), // e.g. 48 = 4.8 / 5.0
   reviewsCount: integer('reviews_count').notNull().default(0),
   availableDays: text('available_days').default('Mon, Wed, Fri, Sat'),
+  nationality: text('nationality').default('Ugandan'),
+  sector: text('sector').default('Science'), // 'Science', 'Art', 'Both'
+  timetable: text('timetable'), // JSON serialized lesson timetable
+  totalTimeSpentMinutes: integer('total_time_spent_minutes').default(0),
   isVerified: boolean('is_verified').default(true),
   createdAt: timestamp('created_at').defaultNow(),
 });
@@ -47,10 +56,11 @@ export const sessions = pgTable('sessions', {
   id: serial('id').primaryKey(),
   title: text('title').notNull(),
   subject: text('subject').notNull(),
+  sector: text('sector').notNull().default('Science'), // 'Science' or 'Art'
   tutorId: integer('tutor_id').references(() => tutors.id).notNull(),
   scheduledAt: timestamp('scheduled_at').notNull(),
-  durationMinutes: integer('duration_minutes').notNull().default(60),
-  price: integer('price').notNull().default(15000),
+  durationMinutes: integer('duration_minutes').notNull().default(90), // Standard 1 1/2 hr session
+  price: integer('price').notNull().default(10000), // Standard: 10,000 for science, 8,000 for arts per 1 1/2 hr
   sessionType: text('session_type').notNull().default('special_session'), // 'special_session', 'one_on_one', 'workshop'
   status: text('status').notNull().default('upcoming'), // 'upcoming', 'live', 'completed', 'cancelled'
   meetingRoomId: text('meeting_room_id').notNull(),
@@ -58,6 +68,8 @@ export const sessions = pgTable('sessions', {
   hasAudio: boolean('has_audio').default(true),
   classLevel: text('class_level').notNull().default('Senior 4'), // 'Senior 1', 'Senior 2', 'Senior 3', 'Senior 4'
   syllabusOverview: text('syllabus_overview'),
+  likesCount: integer('likes_count').notNull().default(0),
+  earnedPayout: boolean('earned_payout').notNull().default(false),
   createdAt: timestamp('created_at').defaultNow(),
 });
 
@@ -66,11 +78,13 @@ export const sessionBookings = pgTable('session_bookings', {
   id: serial('id').primaryKey(),
   sessionId: integer('session_id').references(() => sessions.id).notNull(),
   studentId: integer('student_id').references(() => users.id).notNull(),
-  paymentMethod: text('payment_method').notNull(), // 'MTN Mobile Money', 'Airtel Money', 'Centenary Bank', 'Card'
+  paymentMethod: text('payment_method').notNull(), // 'MTN Mobile Money', 'Airtel Money', 'Centenary Bank', 'Card', 'First-Time Bonus Voucher'
   paymentStatus: text('payment_status').notNull().default('completed'), // 'completed', 'pending'
   transactionRef: text('transaction_ref').notNull(),
   amount: integer('amount').notNull(),
   accessCode: text('access_code').notNull(),
+  isBonusUsed: boolean('is_bonus_used').default(false),
+  firstOrderBonusGranted: boolean('first_order_bonus_granted').default(false),
   paidAt: timestamp('paid_at').defaultNow(),
 });
 
@@ -152,6 +166,17 @@ export const systemTickets = pgTable('system_tickets', {
   status: text('status').notNull().default('open'), // 'open', 'in_progress', 'resolved'
   creatorNotes: text('creator_notes'),
   createdAt: timestamp('created_at').defaultNow(),
+});
+
+// 11. User & Creator Email Notification Log
+export const emailNotifications = pgTable('email_notifications', {
+  id: serial('id').primaryKey(),
+  recipientEmail: text('recipient_email').notNull().default('normantola776@gmail.com'),
+  subject: text('subject').notNull(),
+  body: text('body').notNull(),
+  eventType: text('event_type').notNull(), // 'session_booking', 'student_like', 'tutor_payout', 'academic_alert', 'welcome_bonus'
+  status: text('status').notNull().default('delivered'),
+  sentAt: timestamp('sent_at').defaultNow(),
 });
 
 // Relations

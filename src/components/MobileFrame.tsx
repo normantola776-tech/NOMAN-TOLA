@@ -5,200 +5,174 @@ import {
   FileText,
   MessageSquare,
   BarChart2,
-  Wifi,
-  Battery,
-  Signal,
   Bell,
   X,
+  BookOpen,
+  Calendar,
+  Building2,
+  GraduationCap,
   Sparkles,
+  Download,
+  Smartphone,
 } from 'lucide-react';
-import { PushNotification } from '../types.ts';
+import { PushNotification, UserProfile } from '../types.ts';
 
 interface Props {
-  deviceFrame: 'ios' | 'android' | 'web';
+  user?: UserProfile;
   activeTab: string;
   setActiveTab: (tab: string) => void;
   children: React.ReactNode;
   activeBannerNotification: PushNotification | null;
   onDismissBanner: () => void;
   unreadMessagesCount: number;
+  onOpenDownloadApp?: () => void;
 }
 
 export const MobileFrame: React.FC<Props> = ({
-  deviceFrame,
+  user,
   activeTab,
   setActiveTab,
   children,
   activeBannerNotification,
   onDismissBanner,
   unreadMessagesCount,
+  onOpenDownloadApp,
 }) => {
-  const tabs = [
-    { id: 'tutors', label: 'Tutors', icon: Users },
-    { id: 'sessions', label: 'Classes', icon: Video },
-    { id: 'ai-assistant', label: 'AI Notes & Solutions', icon: Sparkles },
-    { id: 'materials', label: 'Study Hub', icon: FileText },
-    { id: 'messages', label: 'Messages', icon: MessageSquare, badge: unreadMessagesCount },
-    { id: 'progress', label: 'Dashboard', icon: BarChart2 },
-  ];
+  const isTutor = user?.role === 'tutor';
+  const isCreator = user?.role === 'creator';
 
-  if (deviceFrame === 'web') {
-    return (
-      <div className="min-h-[calc(100vh-4rem)] bg-slate-100/70 p-4 sm:p-6">
-        <div className="max-w-7xl mx-auto space-y-5">
-          {/* Active Banner Notification */}
-          {activeBannerNotification && (
-            <div className="bg-gradient-to-r from-blue-700 to-indigo-800 text-white rounded-2xl p-4 shadow-lg flex items-center justify-between animate-in slide-in-from-top-3">
-              <div className="flex items-center gap-3">
-                <div className="p-2 bg-white/20 rounded-xl">
-                  <Bell className="w-5 h-5 text-amber-300 animate-bounce" />
-                </div>
-                <div>
-                  <h4 className="font-bold text-xs">{activeBannerNotification.title}</h4>
-                  <p className="text-xs text-blue-100">{activeBannerNotification.message}</p>
-                </div>
-              </div>
-              <button
-                onClick={onDismissBanner}
-                className="p-1 rounded-lg hover:bg-white/20 text-white"
-              >
-                <X className="w-4 h-4" />
-              </button>
-            </div>
-          )}
-
-          {/* Web Tab Nav */}
-          <div className="bg-white rounded-2xl p-1.5 border border-slate-200 shadow-xs flex items-center gap-1">
-            {tabs.map((tab) => {
-              const Icon = tab.icon;
-              const isActive = activeTab === tab.id;
-              return (
-                <button
-                  key={tab.id}
-                  onClick={() => setActiveTab(tab.id)}
-                  className={`flex-1 py-2.5 px-4 rounded-xl text-xs font-semibold flex items-center justify-center gap-2 transition-all ${
-                    isActive
-                      ? 'bg-blue-600 text-white shadow-xs'
-                      : 'text-slate-600 hover:bg-slate-100'
-                  }`}
-                >
-                  <Icon className="w-4 h-4" />
-                  <span>{tab.label}</span>
-                  {tab.badge && tab.badge > 0 ? (
-                    <span className="px-1.5 py-0.2 bg-rose-500 text-white text-[10px] font-bold rounded-full">
-                      {tab.badge}
-                    </span>
-                  ) : null}
-                </button>
-              );
-            })}
-          </div>
-
-          <div className="pb-10">{children}</div>
-        </div>
-      </div>
-    );
-  }
-
-  const isIOS = deviceFrame === 'ios';
+  const tabs = isCreator
+    ? [
+        { id: 'activities', label: 'All App Activities & Audit', icon: Building2 },
+        { id: 'classroom', label: 'Google Classroom', icon: GraduationCap },
+        { id: 'sessions', label: 'Live Classes', icon: Video },
+        { id: 'tutors', label: 'Tutors & Lessons', icon: Calendar },
+        { id: 'ai-assistant', label: 'Scholar Library', icon: BookOpen },
+        { id: 'materials', label: 'Study Hub', icon: FileText },
+        { id: 'messages', label: 'Messages', icon: MessageSquare, badge: unreadMessagesCount },
+        { id: 'progress', label: 'Academic Progress', icon: BarChart2 },
+      ]
+    : [
+        {
+          id: 'tutors',
+          label: isTutor ? 'My Lessons & Timetable' : 'Tutors',
+          icon: isTutor ? Calendar : Users,
+        },
+        { id: 'classroom', label: 'Google Classroom', icon: GraduationCap },
+        { id: 'sessions', label: 'Classes', icon: Video },
+        { id: 'ai-assistant', label: 'Scholar Library & Tests', icon: BookOpen },
+        { id: 'materials', label: 'Study Hub', icon: FileText },
+        { id: 'messages', label: 'Messages', icon: MessageSquare, badge: unreadMessagesCount },
+        { id: 'progress', label: 'Dashboard', icon: BarChart2 },
+      ];
 
   return (
-    <div className="min-h-[calc(100vh-4rem)] bg-slate-900/90 py-6 px-2 sm:px-4 flex items-center justify-center">
-      {/* Mobile Device Mockup */}
-      <div
-        className={`relative bg-white shadow-2xl overflow-hidden flex flex-col transition-all ${
-          isIOS
-            ? 'w-full max-w-[420px] h-[850px] rounded-[52px] border-[10px] border-slate-800 ring-1 ring-slate-700'
-            : 'w-full max-w-[430px] h-[860px] rounded-[44px] border-[9px] border-slate-800 ring-1 ring-slate-700'
-        }`}
-      >
-        {/* Device Native Status Bar */}
-        <div className="h-11 bg-white px-7 flex items-center justify-between text-xs text-slate-800 font-semibold select-none z-30 shrink-0">
-          <span>9:41</span>
-
-          {/* Dynamic Island (iOS) or Punch Hole (Android) */}
-          {isIOS ? (
-            <div className="w-28 h-6 bg-slate-950 rounded-full flex items-center justify-center gap-2 px-2">
-              <span className="w-2.5 h-2.5 rounded-full bg-slate-900 border border-slate-800" />
-              <span className="w-2 h-2 rounded-full bg-slate-800" />
-            </div>
-          ) : (
-            <div className="w-3.5 h-3.5 rounded-full bg-slate-950 ring-2 ring-slate-300" />
-          )}
-
-          <div className="flex items-center gap-1.5 text-slate-700">
-            <Signal className="w-3.5 h-3.5" />
-            <Wifi className="w-3.5 h-3.5" />
-            <Battery className="w-4 h-4" />
-          </div>
-        </div>
-
-        {/* In-Phone Push Notification Dropdown Banner */}
+    <div className="min-h-[calc(100vh-4rem)] bg-slate-100/70">
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-6 space-y-5">
+        {/* Active Notification Banner */}
         {activeBannerNotification && (
-          <div className="absolute top-12 left-3 right-3 z-50 bg-slate-900/95 backdrop-blur-md text-white rounded-2xl p-3 shadow-2xl border border-slate-700 flex items-start justify-between gap-2 animate-in slide-in-from-top-4">
-            <div className="flex items-start gap-2.5">
-              <div className="p-1.5 bg-blue-500/20 text-blue-400 rounded-xl mt-0.5">
-                <Bell className="w-4 h-4 animate-pulse" />
+          <div className="bg-gradient-to-r from-blue-700 to-indigo-800 text-white rounded-2xl p-4 shadow-sm flex items-center justify-between animate-in slide-in-from-top-3">
+            <div className="flex items-center gap-3">
+              <div className="p-2 bg-white/20 rounded-xl">
+                <Bell className="w-5 h-5 text-amber-300 animate-bounce" />
               </div>
               <div>
-                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">
-                  Edura Push Notification
-                </span>
-                <h5 className="font-bold text-xs text-white">
-                  {activeBannerNotification.title}
-                </h5>
-                <p className="text-[11px] text-slate-300 leading-tight mt-0.5">
-                  {activeBannerNotification.message}
-                </p>
+                <h4 className="font-bold text-xs">{activeBannerNotification.title}</h4>
+                <p className="text-xs text-blue-100">{activeBannerNotification.message}</p>
               </div>
             </div>
             <button
               onClick={onDismissBanner}
-              className="text-slate-400 hover:text-white p-1"
+              className="p-1 rounded-lg hover:bg-white/20 text-white cursor-pointer"
             >
-              <X className="w-3.5 h-3.5" />
+              <X className="w-4 h-4" />
             </button>
           </div>
         )}
 
-        {/* Scrollable Mobile App Body */}
-        <div className="flex-1 overflow-y-auto p-4 bg-slate-50/70 scrollbar-none">
-          {children}
-        </div>
+        {/* Quick App Download & Install Strip for Mobile / Cross-Platform */}
+        {onOpenDownloadApp && (
+          <div className="bg-gradient-to-r from-emerald-600 to-teal-700 rounded-2xl p-3 text-white shadow-xs flex items-center justify-between gap-3 sm:hidden">
+            <div className="flex items-center gap-2.5">
+              <div className="p-1.5 bg-white/20 rounded-lg">
+                <Smartphone className="w-4 h-4 text-emerald-100" />
+              </div>
+              <div>
+                <p className="text-xs font-bold leading-tight">Install Edura High on your Device</p>
+                <p className="text-[10px] text-emerald-100">Android & Apple iOS Play Store/App Store Ready</p>
+              </div>
+            </div>
+            <button
+              onClick={onOpenDownloadApp}
+              className="px-3 py-1.5 bg-white text-emerald-800 rounded-xl text-xs font-bold shadow-xs hover:bg-emerald-50 transition-all cursor-pointer shrink-0 flex items-center gap-1"
+            >
+              <Download className="w-3.5 h-3.5" />
+              <span>Install</span>
+            </button>
+          </div>
+        )}
 
-        {/* Native Mobile Bottom Tab Bar */}
-        <div className="bg-white/95 backdrop-blur-md border-t border-slate-200 px-3 pt-2 pb-5 flex items-center justify-around shrink-0 z-30">
+        {/* Responsive Desktop & Tablet Top Navigation Tabs */}
+        <div className="bg-white rounded-2xl p-1.5 border border-slate-200 shadow-2xs flex items-center gap-1 overflow-x-auto scrollbar-none">
           {tabs.map((tab) => {
             const Icon = tab.icon;
             const isActive = activeTab === tab.id;
             return (
               <button
                 key={tab.id}
-                type="button"
                 onClick={() => setActiveTab(tab.id)}
-                className={`relative flex flex-col items-center gap-1 transition-all ${
-                  isActive ? 'text-blue-600 scale-105' : 'text-slate-400 hover:text-slate-600'
+                className={`flex-1 min-w-[120px] py-2.5 px-3 sm:px-4 rounded-xl text-xs font-semibold flex items-center justify-center gap-2 transition-all shrink-0 cursor-pointer ${
+                  isActive
+                    ? 'bg-blue-600 text-white shadow-xs'
+                    : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
                 }`}
               >
-                <div className="relative">
-                  <Icon className="w-5 h-5" />
-                  {tab.badge && tab.badge > 0 ? (
-                    <span className="absolute -top-1 -right-2 w-4 h-4 bg-rose-500 text-white rounded-full text-[9px] font-bold flex items-center justify-center ring-2 ring-white">
-                      {tab.badge}
-                    </span>
-                  ) : null}
-                </div>
-                <span className="text-[10px] font-semibold">{tab.label}</span>
+                <Icon className="w-4 h-4 shrink-0" />
+                <span className="truncate">{tab.label}</span>
+                {tab.badge && tab.badge > 0 ? (
+                  <span className="px-1.5 py-0.2 bg-rose-500 text-white text-[10px] font-bold rounded-full">
+                    {tab.badge}
+                  </span>
+                ) : null}
               </button>
             );
           })}
         </div>
 
-        {/* Home Indicator Bar (iOS / Android gesture line) */}
-        <div className="h-4 bg-white flex items-center justify-center pb-1">
-          <div className="w-32 h-1 bg-slate-400 rounded-full" />
-        </div>
+        {/* Main Application Content - Fully Responsive for all screen sizes */}
+        <main className="w-full pb-16 sm:pb-8">
+          {children}
+        </main>
       </div>
+
+      {/* Mobile Fixed Bottom Navigation Bar (Phone Screens) */}
+      <nav className="sm:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-slate-200 py-1.5 px-2 flex items-center justify-around shadow-lg">
+        {tabs.slice(0, 5).map((tab) => {
+          const Icon = tab.icon;
+          const isActive = activeTab === tab.id;
+          return (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              className={`flex flex-col items-center justify-center py-1 px-2 rounded-xl transition-all cursor-pointer ${
+                isActive ? 'text-blue-600 font-bold' : 'text-slate-500'
+              }`}
+            >
+              <div className="relative">
+                <Icon className="w-5 h-5" />
+                {tab.badge && tab.badge > 0 ? (
+                  <span className="absolute -top-1 -right-2 w-3.5 h-3.5 bg-rose-500 text-white text-[8px] font-bold rounded-full flex items-center justify-center">
+                    {tab.badge}
+                  </span>
+                ) : null}
+              </div>
+              <span className="text-[10px] mt-0.5 max-w-[64px] truncate">
+                {tab.id === 'ai-assistant' ? 'Library' : tab.label.split(' ')[0]}
+              </span>
+            </button>
+          );
+        })}
+      </nav>
     </div>
   );
 };

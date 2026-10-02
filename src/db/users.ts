@@ -9,6 +9,8 @@ export async function getOrCreateUser(userData: {
   role?: string;
   gradeLevel?: string;
   schoolName?: string;
+  nationality?: string;
+  sector?: string;
   avatar?: string;
 }) {
   try {
@@ -18,8 +20,10 @@ export async function getOrCreateUser(userData: {
         email: userData.email,
         fullName: userData.fullName || userData.email.split('@')[0],
         role: userData.role || 'student',
-        gradeLevel: userData.gradeLevel || 'Senior 4 (Grade 10)',
+        gradeLevel: userData.gradeLevel || 'Senior 4',
         schoolName: userData.schoolName || 'High School',
+        nationality: userData.nationality || 'Ugandan',
+        sector: userData.sector || 'Both',
         avatar: userData.avatar || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150',
       })
       .onConflictDoUpdate({
@@ -27,6 +31,10 @@ export async function getOrCreateUser(userData: {
         set: {
           email: userData.email,
           ...(userData.fullName ? { fullName: userData.fullName } : {}),
+          ...(userData.schoolName ? { schoolName: userData.schoolName } : {}),
+          ...(userData.gradeLevel ? { gradeLevel: userData.gradeLevel } : {}),
+          ...(userData.nationality ? { nationality: userData.nationality } : {}),
+          ...(userData.sector ? { sector: userData.sector } : {}),
           ...(userData.avatar ? { avatar: userData.avatar } : {}),
         },
       })

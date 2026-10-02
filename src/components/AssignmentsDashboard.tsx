@@ -29,7 +29,7 @@ import { StudyAtmosphereSelector } from './StudyAtmosphereSelector.tsx';
 interface Props {
   user: UserProfile;
   onTriggerNotification: (title: string, message: string, type: 'assignment' | 'grade' | 'session' | 'system') => void;
-  onNavigateTab?: (tab: 'tutors' | 'sessions' | 'materials' | 'messages' | 'progress' | 'ai-assistant') => void;
+  onNavigateTab?: (tab: string) => void;
 }
 
 export const AssignmentsDashboard: React.FC<Props> = ({
@@ -544,14 +544,26 @@ export const AssignmentsDashboard: React.FC<Props> = ({
 
       {/* Tracked Homework & Assignments List */}
       <div className="bg-white rounded-2xl p-5 border border-slate-200 shadow-xs space-y-3">
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
           <h4 className="font-bold text-sm text-slate-900 flex items-center gap-2">
             <FileCheck className="w-4 h-4 text-blue-600" />
             <span>Homework Reminders & Tracked Submissions</span>
           </h4>
-          <span className="text-xs text-slate-500">
-            {assignments.length} assignments on file
-          </span>
+          <div className="flex items-center gap-2">
+            {onNavigateTab && (
+              <button
+                type="button"
+                onClick={() => onNavigateTab('classroom')}
+                className="px-2.5 py-1 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer"
+              >
+                <GraduationCap className="w-3.5 h-3.5 text-emerald-600" />
+                <span>Google Classroom Sync</span>
+              </button>
+            )}
+            <span className="text-xs text-slate-500">
+              {assignments.length} assignments on file
+            </span>
+          </div>
         </div>
 
         <div className="divide-y divide-slate-100">

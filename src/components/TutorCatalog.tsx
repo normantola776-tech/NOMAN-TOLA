@@ -18,6 +18,7 @@ interface Props {
   user: UserProfile;
   onSelectTutorToChat: (tutor: Tutor) => void;
   onBookSession: (tutor: Tutor) => void;
+  onRequestRegister?: () => void;
 }
 
 const SUBJECT_CATEGORIES = [
@@ -42,6 +43,7 @@ export const TutorCatalog: React.FC<Props> = ({
   user,
   onSelectTutorToChat,
   onBookSession,
+  onRequestRegister,
 }) => {
   const [tutors, setTutors] = useState<Tutor[]>([]);
   const [loading, setLoading] = useState(false);
@@ -131,6 +133,42 @@ export const TutorCatalog: React.FC<Props> = ({
 
   return (
     <div className="space-y-5">
+      {/* Official Pricing Standard & First-Time Student Bonus Banner */}
+      <div className="bg-gradient-to-r from-blue-900 via-indigo-950 to-slate-900 text-white rounded-2xl p-4 shadow-sm border border-slate-800 space-y-2.5 text-xs">
+        <div className="flex flex-wrap items-center justify-between gap-2 border-b border-white/10 pb-2">
+          <div className="flex items-center gap-2 font-bold text-xs">
+            <Sparkles className="w-4 h-4 text-amber-400" />
+            <span>High School Tutoring Standard:</span>
+          </div>
+          <div className="flex flex-wrap items-center gap-2 text-[11px] font-bold">
+            <span className="px-2.5 py-1 bg-purple-500/20 text-purple-300 border border-purple-400/30 rounded-lg">
+              Science: UGX 10,000 / 1 1/2 hr (90 min)
+            </span>
+            <span className="px-2.5 py-1 bg-emerald-500/20 text-emerald-300 border border-emerald-400/30 rounded-lg">
+              Arts: UGX 8,000 / 1 1/2 hr (90 min)
+            </span>
+          </div>
+        </div>
+
+        <div className="flex flex-wrap items-center justify-between gap-2 text-[11px]">
+          <div className="flex items-center gap-2">
+            <span className="text-base">🎁</span>
+            <span className="text-slate-300">
+              <strong>First-Time Student Reward:</strong> Get <strong>1 FREE Bonus Session</strong> credited after your first order!
+            </span>
+          </div>
+          {onRequestRegister && (
+            <button
+              type="button"
+              onClick={onRequestRegister}
+              className="px-3 py-1 bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold text-[11px] rounded-lg transition-all cursor-pointer"
+            >
+              Register Account
+            </button>
+          )}
+        </div>
+      </div>
+
       {/* Search and Filters Bar */}
       <div className="bg-white rounded-2xl p-4 border border-slate-200 shadow-xs space-y-3.5">
         <form onSubmit={handleSearchSubmit} className="flex flex-col sm:flex-row gap-2.5">
