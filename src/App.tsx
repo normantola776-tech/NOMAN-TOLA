@@ -25,60 +25,14 @@ import { NotificationCenterModal } from './components/NotificationCenterModal.ts
 import { DownloadAppModal } from './components/DownloadAppModal.tsx';
 import { OfflineIndicator } from './components/OfflineIndicator.tsx';
 import { GemmaHelperBot } from './components/GemmaHelperBot.tsx';
+import { LoginScreen } from './components/LoginScreen.tsx';
 import {
   UserProfile,
   Tutor,
   TutoringSession,
   PushNotification,
+  PROFILES,
 } from './types.ts';
-
-const PROFILES: Record<'student' | 'tutor' | 'creator', UserProfile> = {
-  student: {
-    id: 2,
-    uid: 'student-demo-2',
-    email: 'joel.mukasa@budo.ac.ug',
-    fullName: 'Joel Mukasa',
-    role: 'student',
-    gradeLevel: 'Senior 4',
-    schoolName: "King's College Budo",
-    nationality: 'Ugandan',
-    sector: 'Science',
-    hasFirstTimeBonus: true,
-    bonusSessionsCount: 1, // 1 Free bonus session credited for first-time orders!
-    ordersCount: 1,
-    idCardVerified: true,
-    avatar: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=400',
-    bio: 'Aspiring engineer preparing for UNEB UCE and Cambridge IGCSE examinations.',
-  },
-  tutor: {
-    id: 1,
-    uid: 'tutor-demo-1',
-    email: 'kigozi.mark@budo.ac.ug',
-    fullName: 'Dr. Mark Kigozi',
-    role: 'tutor',
-    gradeLevel: 'Senior 4 - Senior 6 (A-Level)',
-    schoolName: "King's College Budo",
-    nationality: 'Ugandan',
-    sector: 'Science',
-    idCardVerified: true,
-    avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400',
-    bio: 'Lead Physics and Pure Mathematics instructor with 12 years of distinction coaching.',
-  },
-  creator: {
-    id: 3,
-    uid: 'creator-admin-3',
-    email: 'normantola776@gmail.com',
-    fullName: 'Edura Platform Directorate',
-    role: 'creator',
-    gradeLevel: 'Administrative Board',
-    schoolName: 'Centenary Payout Operations',
-    nationality: 'Ugandan',
-    sector: 'Both',
-    idCardVerified: true,
-    avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400',
-    bio: 'Platform financial management & tax compliance officer. Direct notifications: normantola776@gmail.com',
-  },
-};
 
 const INITIAL_NOTIFICATIONS: PushNotification[] = [
   {
@@ -110,6 +64,7 @@ const INITIAL_NOTIFICATIONS: PushNotification[] = [
 export default function App() {
   const [currentUser, setCurrentUser] = useState<UserProfile>(PROFILES.student);
   const [activeTab, setActiveTab] = useState<string>('tutors');
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(true);
 
   // Push notifications state
   const [notifications, setNotifications] = useState<PushNotification[]>(INITIAL_NOTIFICATIONS);
@@ -200,6 +155,29 @@ export default function App() {
 
   const unreadNotifCount = notifications.filter((n) => !n.read).length;
 
+  if (!isAuthenticated) {
+    return (
+      <LoginScreen
+        onLoginSuccess={(user, targetTab) => {
+          setCurrentUser(user);
+          setIsAuthenticated(true);
+          if (targetTab) {
+            setActiveTab(targetTab);
+          } else if (user.role === 'creator') {
+            setActiveTab('activities');
+          } else {
+            setActiveTab('tutors');
+          }
+        }}
+        onRequestRegister={(role) => {
+          setRegistrationRole(role);
+          setRegistrationIntent(`register new ${role} account`);
+          setIsRegistrationOpen(true);
+        }}
+      />
+    );
+  }
+
   return (
     <div className="min-h-screen bg-slate-100/70 flex flex-col font-sans text-slate-800">
       {/* Platform Header */}
@@ -219,6 +197,7 @@ export default function App() {
         onOpenDownloadApp={() => setIsDownloadModalOpen(true)}
         unreadNotificationsCount={unreadNotifCount}
         onSwitchUserRole={handleRoleSwitch}
+        onLogout={() => setIsAuthenticated(false)}
       />
 
       {/* Responsive Application Layout for All Devices */}

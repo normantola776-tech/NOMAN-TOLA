@@ -20,6 +20,8 @@ import {
   Atom,
   Palette,
   FileCheck2,
+  Smartphone,
+  Download,
 } from 'lucide-react';
 import {
   UserProfile,
@@ -685,6 +687,36 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+
+        {/* Direct Android APK Download Banner: Universal Gemini AI Edition (Every Device System) */}
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 p-4 bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 border border-indigo-500/30 rounded-2xl text-xs text-slate-300 shadow-xl">
+          <div className="flex items-center gap-3">
+            <span className="p-2.5 bg-indigo-500/20 text-indigo-400 rounded-xl border border-indigo-500/30">
+              <Smartphone className="w-5 h-5" />
+            </span>
+            <div>
+              <div className="flex flex-wrap items-center gap-2">
+                <p className="font-bold text-white text-xs">Universal Gemini APK — Every Device System (v1.2.0 • 200 KB)</p>
+                <span className="px-1.5 py-0.5 rounded text-[9px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                  Universal ABI & Screen
+                </span>
+              </div>
+              <p className="text-[11px] text-slate-400 mt-0.5">
+                Engineered to install on any Android device (Android 5.0 to 15, ARM32/ARM64/x86, Tecno, Samsung, tablets, TV & PC emulators).
+              </p>
+            </div>
+          </div>
+          <div className="flex items-center gap-2 w-full sm:w-auto">
+            <a
+              href="/api/download/universal-apk"
+              download="edura-high-gemini-universal.apk"
+              className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-gradient-to-r from-indigo-600 via-purple-600 to-blue-600 hover:from-indigo-500 hover:to-purple-500 text-white font-bold text-xs flex items-center justify-center gap-2 transition-all shadow-lg shadow-indigo-500/20 cursor-pointer whitespace-nowrap"
+            >
+              <Download className="w-4 h-4" />
+              <span>Download Universal APK</span>
+            </a>
           </div>
         </div>
       </div>

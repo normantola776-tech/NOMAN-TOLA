@@ -92,11 +92,11 @@ export const Header: React.FC<Props> = ({
               type="button"
               onClick={onOpenDownloadApp}
               className="px-2.5 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white shadow-xs transition-all cursor-pointer ring-1 ring-emerald-500/20"
-              title="Download & Install App on Android, iOS, Windows, Mac"
+              title="Download Android APK (.apk) or Install App"
             >
               <Download className="w-3.5 h-3.5 text-emerald-100" />
-              <span className="hidden sm:inline">Download App</span>
-              <span className="inline sm:hidden">Install</span>
+              <span className="hidden sm:inline">Download APK</span>
+              <span className="inline sm:hidden">APK</span>
             </button>
           )}
 
