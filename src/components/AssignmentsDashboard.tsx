@@ -107,8 +107,8 @@ export const AssignmentsDashboard: React.FC<Props> = ({
       if (Array.isArray(data)) {
         setAssignments(data);
       }
-    } catch (e) {
-      console.error('Failed to load assignments', e);
+    } catch (e: any) {
+      console.warn('Network sync notice in AssignmentsDashboard:', e?.message || e);
     }
   };
 

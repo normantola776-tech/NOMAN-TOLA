@@ -59,8 +59,8 @@ export const CreatorFinanceSuite: React.FC<Props> = ({ user, isOpen, onClose }) 
         const actData = await resAct.json();
         setActivitySummary(actData);
       }
-    } catch (e) {
-      console.error('Failed to load creator data:', e);
+    } catch (e: any) {
+      console.warn('Network sync notice in CreatorFinanceSuite:', e?.message || e);
     } finally {
       setLoading(false);
     }

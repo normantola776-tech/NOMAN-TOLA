@@ -85,8 +85,8 @@ export const NotificationCenterModal: React.FC<Props> = ({
           sentAt: new Date(Date.now() - 30 * 60 * 1000).toISOString(),
         },
       ]);
-    } catch (e) {
-      console.error('Error fetching email logs:', e);
+    } catch (e: any) {
+      console.warn('Network sync notice in NotificationCenterModal:', e?.message || e);
     } finally {
       setLoadingEmails(false);
     }

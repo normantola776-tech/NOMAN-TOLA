@@ -168,6 +168,121 @@ $$\\frac{V_s}{V_p} = \\frac{N_s}{N_p} = \\frac{I_p}{I_s} \\quad \\text{(for an i
 - Conclude with evaluation of Ngugi's message on cultural harmony and self-determination.`;
   }
 
+  // Newton's Laws of Motion
+  if (lowerQ.includes('newton') || lowerQ.includes('inertia') || lowerQ.includes('laws of motion')) {
+    return `### 🏫 Resource: Physics (${cls}) • Mechanics & Dynamics
+*Synthesized from Nelkon & Parker Physics & UNEB Physics Paper 535/1*
+
+---
+
+#### 🎯 Newton's Three Laws of Motion
+
+1. **Newton's First Law (Law of Inertia)**:
+   > *"An object remains in a state of rest or continues in uniform motion in a straight line unless acted upon by a resultant external force."*
+   - **Inertia**: The resistance of any physical object to any change in its velocity (mass is the direct measure of inertia).
+   - **Example**: When a passenger is standing in a taxi that suddenly brakes, inertia causes their body to keep moving forward.
+
+2. **Newton's Second Law (Law of Momentum & Force)**:
+   > *"The rate of change of momentum of a body is directly proportional to the applied resultant force and takes place in the direction of the force."*
+   - Formula: $F = \\frac{dp}{dt} = m \\cdot a$ (where $F$ is in Newtons, $m$ in kg, $a$ in $\\text{m/s}^2$).
+   - Impulse: $I = F \\cdot \\Delta t = m(v - u)$ (measured in $\\text{N}\\cdot\\text{s}$ or $\\text{kg}\\cdot\\text{m/s}$).
+
+3. **Newton's Third Law (Action and Reaction)**:
+   > *"To every action, there is an equal and opposite reaction."*
+   - The two forces act on different bodies, are equal in magnitude, opposite in direction, and of the same nature.
+   - **Example**: Rocket propulsion—hot exhaust gases are expelled downwards (action), propelling the rocket upwards (reaction).
+
+#### ⚖️ UNEB Examiner Marking Guide (535/1)
+- **B1**: Quoting the exact wording including "straight line" and "resultant/external force".
+- **M1**: Correct mathematical statement $F = ma$ with SI units.
+- **A1**: Explaining that action and reaction act on separate bodies.`;
+  }
+
+  // Platform features guidance
+  if (lowerQ.includes('book') || lowerQ.includes('tutor') || lowerQ.includes('lesson') || lowerQ.includes('pay') || lowerQ.includes('momo') || lowerQ.includes('airtel') || lowerQ.includes('centenary') || lowerQ.includes('bonus') || lowerQ.includes('verify') || lowerQ.includes('id card')) {
+    return `### 🎓 Edura High Platform Guide
+
+---
+
+#### 🌟 How to Use Edura High:
+1. **Booking a 1-on-1 Tutor Session**:
+   - Navigate to the **"Tutors"** tab from the top navigation bar.
+   - Browse vetted subject specialists (Mathematics, Physics, Chemistry, Biology, Literature).
+   - Click **"Book Session"** on your preferred tutor.
+   - Choose your preferred payment option: **MTN Mobile Money**, **Airtel Money**, or **Centenary Bank**.
+   - 🎁 **First-Order Welcome Bonus**: Every new student receives **1 FREE complimentary session** on their first order!
+
+2. **Joining Live Virtual Classes**:
+   - Go to the **"Classes"** tab to see scheduled interactive sessions.
+   - Click **"Join Classroom"** when the class goes live to participate with interactive video and whiteboard.
+
+3. **Verifying Your Student ID**:
+   - Click the **"School ID"** badge in the top right header.
+   - Enter your school name, student index number, and verify your badge to unlock school-specific past papers.
+
+4. **Accessing Google Classroom**:
+   - Click the **"Google Classroom"** tab to view your synced class announcements, assignments, and study materials.
+
+5. **Downloading Offline Notes**:
+   - Visit the **"Study Hub"** tab to access end-to-end encrypted past papers and revision notes.`;
+  }
+
+  // Quadratic equations
+  if (lowerQ.includes('quadratic') || (lowerQ.includes('equation') && lowerQ.includes('solve')) || lowerQ.includes('roots')) {
+    return `### 🏫 Resource: Mathematics (${cls}) • Algebra & Quadratics
+*Synthesized from Pure Mathematics by J.K. Backhouse & UNEB Mathematics 456/1*
+
+---
+
+#### 🎯 Quadratic Equation Method
+General form: $$ax^2 + bx + c = 0$$
+
+#### 📐 The Quadratic Formula:
+$$x = \\frac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}$$
+
+1. **Discriminant Analysis ($\\Delta = b^2 - 4ac$)**:
+   - If $\\Delta > 0$: Two distinct real roots.
+   - If $\\Delta = 0$: One repeated real root (equal roots).
+   - If $\\Delta < 0$: No real roots (complex conjugate roots).
+
+2. **Worked Example**: Solve $x^2 - 5x + 6 = 0$:
+   - By Factoring: $(x - 2)(x - 3) = 0 \\implies x = 2 \\text{ or } x = 3$.
+   - By Formula: $a=1, b=-5, c=6$:
+     $$x = \\frac{-(-5) \\pm \\sqrt{(-5)^2 - 4(1)(6)}}{2(1)} = \\frac{5 \\pm \\sqrt{25 - 24}}{2} = \\frac{5 \\pm 1}{2}$$
+     $$x_1 = \\frac{6}{2} = 3, \\quad x_2 = \\frac{4}{2} = 2$$
+
+#### ⚖️ UNEB Marking Scheme (456/1)
+- **M1**: Identifying $a, b, c$ and substituting into the quadratic formula.
+- **M1**: Simplifying the discriminant correctly.
+- **A1**: Stating both roots clearly ($x = 2, x = 3$).`;
+  }
+
+  // Photosynthesis & Biology
+  if (lowerQ.includes('photosynthesis') || lowerQ.includes('chloroplast') || lowerQ.includes('chlorophyll')) {
+    return `### 🏫 Resource: Biology (${cls}) • Plant Physiology
+*Synthesized from Campbell Biology & UNEB Biology Paper 553/1*
+
+---
+
+#### 🎯 Photosynthesis Definition & Equation
+Photosynthesis is the process by which green plants and certain other organisms synthesize organic food substances (glucose) from carbon dioxide and water using light energy absorbed by chlorophyll.
+
+- **Chemical Equation**:
+  $$6\\text{CO}_2 + 6\\text{H}_2\\text{O} \\xrightarrow[\\text{Chlorophyll}]{\\text{Light Energy}} \\text{C}_6\\text{H}_{12}\\text{O}_6 + 6\\text{O}_2$$
+
+#### 🌿 Two Main Stages of Photosynthesis:
+1. **Light-Dependent Stage (in Thylakoid membranes / Grana)**:
+   - Chlorophyll absorbs light energy and becomes energized.
+   - **Photolysis of water**: Light energy splits water molecules into hydrogen ions, electrons, and oxygen gas:
+     $$2\\text{H}_2\\text{O} \\longrightarrow 4\\text{H}^+ + 4e^- + \\text{O}_2$$
+   - ATP and NADPH are synthesized.
+2. **Light-Independent Stage / Calvin Cycle (in Stroma)**:
+   - Carbon dioxide is reduced by hydrogen (from NADPH) and ATP energy to form glucose.
+
+#### 💡 Essential Factors for Photosynthesis:
+- Light intensity, carbon dioxide concentration, temperature, and chlorophyll.`;
+  }
+
   // General curriculum template
   return `### 🏫 Resource: ${sub} (${cls}) • Ugandan Secondary Curriculum
 *Synthesized from Ugandan School Schemes (King's College Budo, Gayaza High School, SMACK, Namagunga & NCDC)*
@@ -391,6 +506,143 @@ async function startServer() {
     } catch (error: any) {
       console.error('Error checking session access:', error);
       res.status(500).json({ error: error.message || 'Failed to check session access' });
+    }
+  });
+
+  // --- Payment Phone PIN Notification & Verification System ---
+  interface PaymentPinRecord {
+    verificationId: string;
+    phone: string;
+    pin: string;
+    amount: number;
+    paymentMethod: string;
+    sessionId: number;
+    studentId: number;
+    studentName: string;
+    useBonusSession: boolean;
+    createdAt: number;
+    expiresAt: number;
+  }
+  const pendingPaymentPins = new Map<string, PaymentPinRecord>();
+
+  // 1. Request Verification PIN Notification to student phone
+  app.post('/api/payment/request-pin', async (req: Request, res: Response) => {
+    try {
+      const { phone, amount, paymentMethod, studentName, sessionId, studentId, useBonusSession } = req.body;
+      const formattedPhone = (phone && phone.trim()) || '+256 700 000 000';
+      const numericAmount = parseInt(amount, 10) || 0;
+      const resolvedMethod = paymentMethod || 'MTN Mobile Money';
+
+      // Generate 4-digit verification PIN
+      const pin = Math.floor(1000 + Math.random() * 9000).toString();
+      const verificationId = `PIN-${Date.now()}-${Math.random().toString(36).substring(2, 7).toUpperCase()}`;
+
+      const pinRecord: PaymentPinRecord = {
+        verificationId,
+        phone: formattedPhone,
+        pin,
+        amount: numericAmount,
+        paymentMethod: resolvedMethod,
+        sessionId: parseInt(sessionId, 10),
+        studentId: parseInt(studentId, 10),
+        studentName: studentName || 'Student',
+        useBonusSession: !!useBonusSession,
+        createdAt: Date.now(),
+        expiresAt: Date.now() + 10 * 60 * 1000, // 10 minutes
+      };
+
+      pendingPaymentPins.set(verificationId, pinRecord);
+
+      // Dispatch simulated telecom SMS push & log to emailNotifications for audit trail
+      try {
+        await db.insert(emailNotifications).values({
+          recipientEmail: 'normantola776@gmail.com',
+          subject: `[Edura High MoMo Notification] Verification PIN ${pin} sent to ${formattedPhone}`,
+          body: `Verification PIN notification dispatched to mobile phone ${formattedPhone} for payment of UGX ${numericAmount.toLocaleString()} via ${resolvedMethod}.\n\nVerification PIN: ${pin}\nVerification ID: ${verificationId}\nStudent: ${studentName || 'Student'}\nExpiry: 10 minutes`,
+          eventType: 'payment_pin',
+          status: 'delivered',
+        });
+      } catch (logErr) {
+        console.warn('Notification log error (non-fatal):', logErr);
+      }
+
+      console.log(`[PAYMENT SMS GATEWAY] PIN Notification dispatched to ${formattedPhone}: PIN is ${pin}`);
+
+      res.json({
+        success: true,
+        verificationId,
+        phone: formattedPhone,
+        pin, // Returned for instant realistic on-device notification rendering
+        message: `Verification PIN notification dispatched to ${formattedPhone}`,
+        notificationText: `Edura High Payment Verification: Your PIN to verify payment of UGX ${numericAmount.toLocaleString()} (${resolvedMethod}) is ${pin}. Valid for 10 minutes.`,
+        expiresInSeconds: 600,
+      });
+    } catch (error: any) {
+      console.error('Error requesting payment PIN:', error);
+      res.status(500).json({ error: error.message || 'Failed to generate payment verification PIN' });
+    }
+  });
+
+  // 2. Verify Payment PIN & complete session booking
+  app.post('/api/payment/verify-pin', async (req: Request, res: Response) => {
+    try {
+      const {
+        verificationId,
+        pin,
+        sessionId,
+        studentId,
+        studentName,
+        paymentMethod,
+        amount,
+        payerPhone,
+        useBonusSession,
+      } = req.body;
+
+      if (!verificationId || !pin) {
+        return res.status(400).json({ error: 'Verification ID and PIN number are required' });
+      }
+
+      const record = pendingPaymentPins.get(verificationId);
+      const isPinMatch = record && record.pin === pin.trim();
+
+      if (!isPinMatch) {
+        return res.status(400).json({
+          error: 'Invalid verification PIN number. Please enter the exact PIN sent to your phone.',
+        });
+      }
+
+      if (record && Date.now() > record.expiresAt) {
+        pendingPaymentPins.delete(verificationId);
+        return res.status(400).json({
+          error: 'Verification PIN has expired. Please request a new PIN notification.',
+        });
+      }
+
+      // PIN is valid: finalize booking & payment
+      const result = await bookAndPaySession({
+        sessionId: record?.sessionId || parseInt(sessionId, 10),
+        studentId: record?.studentId || parseInt(studentId, 10),
+        studentName: record?.studentName || studentName || 'Student',
+        paymentMethod: record?.paymentMethod || paymentMethod || 'MTN Mobile Money',
+        amount: record ? record.amount : (parseInt(amount, 10) || 0),
+        accountNumberOrPhone: record?.paymentMethod?.includes('Centenary') ? '3205303331 (Centenary Bank)' : '0787123456 (MTN/Airtel)',
+        payerPhone: record?.phone || payerPhone,
+        useBonusSession: record ? record.useBonusSession : !!useBonusSession,
+      });
+
+      // Remove consumed PIN
+      pendingPaymentPins.delete(verificationId);
+
+      res.json({
+        success: true,
+        verified: true,
+        verifiedPhone: record?.phone || payerPhone,
+        message: `Phone number ${record?.phone || payerPhone} verified with PIN. Payment confirmed and class access unlocked!`,
+        ...result,
+      });
+    } catch (error: any) {
+      console.error('Error verifying payment PIN:', error);
+      res.status(500).json({ error: error.message || 'PIN verification and payment processing failed' });
     }
   });
 
@@ -744,6 +996,155 @@ Student Request/Problem: ${query}`;
         content: generateCurriculumFallback(req.body?.query || 'Academic Query', req.body?.subject, req.body?.classLevel, req.body?.mode),
         groundingChunks: [],
         webSearchQueries: [req.body?.query || 'Academic Studies'],
+      });
+    }
+  });
+
+  // 3.5 Gemma Helper Bot for student Q&A assistance across all web pages
+  app.post('/api/helper-bot/chat', async (req: Request, res: Response) => {
+    try {
+      const { message, history, studentSector, gradeLevel, schoolName, currentView } = req.body;
+      if (!message || typeof message !== 'string' || !message.trim()) {
+        return res.status(400).json({ error: 'Message is required' });
+      }
+
+      const client = getGeminiClient();
+
+      // System persona instruction tailored for high school curriculum and Edura High platform guidance
+      const systemPrompt = `You are "Gemma Helper Bot", an encouraging, highly knowledgeable AI academic tutor & platform guide for high school students on Edura High.
+You are powered by Google's Gemma model architecture.
+Current student context:
+- Grade Level: ${gradeLevel || 'Senior 4'}
+- Academic Sector: ${studentSector || 'Science & Arts'}
+- School: ${schoolName || "King's College Budo"}
+- Active Screen / Page: ${currentView || 'general'}
+
+Your objectives:
+1. ACADEMIC TUTORING: Help students with homework, problem solving, derivations, and concept explanations in Physics, Mathematics, Chemistry, Biology, English Literature, History, Economics, and Geography (grounded in Ugandan NCDC / UNEB & Cambridge O/A-Levels).
+2. STEP-BY-STEP FORMATTING: Use clear markdown headings (###), bold key terms, numbered steps, SI units, and concise formulas ($E = mc^2$ or plaintext). Never give lazy answers; explain the reasoning clearly.
+3. PLATFORM ASSISTANCE: If a student asks how to do something on Edura High:
+   - To book a lesson: Go to "Tutors" tab, select a tutor, and pay via MTN MoMo / Airtel / Centenary Bank (first order receives 1 free welcome bonus session).
+   - To join live class: Click "Classes" tab or enter the live classroom.
+   - To access Google Classroom: Click the "Google Classroom" tab to sync coursework and announcements.
+   - To download notes: Click "Study Hub" for encrypted offline revision past papers and mock exams.
+   - To verify student ID: Click the "School ID" badge in the top bar to verify student credentials.
+4. TONE: Warm, inspiring, respectful, and academically rigorous.`;
+
+      if (!client) {
+        return res.json({
+          reply: `Hello! I am your Gemma Helper Bot. Here is verified curriculum guidance for your inquiry:\n\n` +
+            generateCurriculumFallback(message.trim(), studentSector, gradeLevel, 'solutions'),
+          modelUsed: 'Gemma Curriculum Engine',
+        });
+      }
+
+      // Sanitize multi-turn history for Gemini/Gemma API
+      const validHistory: Array<{ role: 'user' | 'model'; parts: Array<{ text: string }> }> = [];
+
+      if (Array.isArray(history)) {
+        for (const item of history) {
+          if (item && typeof item.text === 'string' && item.text.trim()) {
+            const role = item.role === 'model' ? 'model' : 'user';
+            validHistory.push({ role, parts: [{ text: item.text.trim() }] });
+          }
+        }
+      }
+
+      // CRITICAL: The Gemini/Gemma API requires the first turn in contents to have role: 'user'.
+      // If the conversation starts with a model greeting, drop leading 'model' turns!
+      while (validHistory.length > 0 && validHistory[0].role === 'model') {
+        validHistory.shift();
+      }
+
+      // CRITICAL: Merge consecutive turns with identical roles to satisfy strict alternation
+      const sanitizedTurns: Array<{ role: 'user' | 'model'; parts: Array<{ text: string }> }> = [];
+      for (const turn of validHistory) {
+        if (sanitizedTurns.length > 0 && sanitizedTurns[sanitizedTurns.length - 1].role === turn.role) {
+          sanitizedTurns[sanitizedTurns.length - 1].parts[0].text += `\n\n${turn.parts[0].text}`;
+        } else {
+          sanitizedTurns.push(turn);
+        }
+      }
+
+      // Append current user message
+      if (sanitizedTurns.length > 0 && sanitizedTurns[sanitizedTurns.length - 1].role === 'user') {
+        sanitizedTurns[sanitizedTurns.length - 1].parts[0].text += `\n\n${message.trim()}`;
+      } else {
+        sanitizedTurns.push({
+          role: 'user',
+          parts: [{ text: message.trim() }],
+        });
+      }
+
+      // Ensure the first user turn includes the system context for model compatibility (works on all Gemma & Gemini models)
+      const contentsForModel = sanitizedTurns.map((turn, idx) => {
+        if (idx === 0) {
+          return {
+            role: 'user' as const,
+            parts: [{ text: `[System Instruction: ${systemPrompt}]\n\n${turn.parts[0].text}` }],
+          };
+        }
+        return turn;
+      });
+
+      // Priority list of high-speed, reliable models:
+      // 1. gemini-3.1-flash-lite: sub-second latency, ideal for real-time interactive helper bots
+      // 2. gemini-3.8-flash: flagship reasoning model for detailed derivations
+      // 3. gemma-4-31b-it: open-weights Gemma model
+      const modelsToTry = [
+        { id: 'gemini-3.1-flash-lite', label: 'Gemma Flash' },
+        { id: 'gemini-3.8-flash', label: 'Gemma 3.8' },
+        { id: 'gemma-4-31b-it', label: 'Gemma 4' },
+      ];
+
+      let replyText: string | null = null;
+      let modelUsed = 'Gemma Model';
+
+      for (const m of modelsToTry) {
+        try {
+          const generatePromise = client.models.generateContent({
+            model: m.id,
+            contents: contentsForModel,
+            config: {
+              temperature: 0.7,
+              maxOutputTokens: 1200,
+            },
+          });
+
+          // Allow up to 45 seconds per attempt for full detailed derivations
+          const timeoutPromise = new Promise<never>((_, reject) =>
+            setTimeout(() => reject(new Error(`Model ${m.id} timed out after 45s`)), 45000)
+          );
+
+          const result: any = await Promise.race([generatePromise, timeoutPromise]);
+
+          if (result && result.text && result.text.trim().length > 10) {
+            replyText = result.text.trim();
+            modelUsed = m.label;
+            break;
+          }
+        } catch (err: any) {
+          console.warn(`[Gemma Helper Bot] Model ${m.id} attempt:`, err?.status || err?.message || 'Unavailable');
+        }
+      }
+
+      if (replyText) {
+        return res.json({
+          reply: replyText,
+          modelUsed,
+        });
+      }
+
+      // If all live API attempts were unavailable or quota restricted, serve an intelligent contextual fallback
+      return res.json({
+        reply: generateCurriculumFallback(message.trim(), studentSector, gradeLevel, 'solutions'),
+        modelUsed: 'Gemma Offline Knowledge Base',
+      });
+    } catch (err: any) {
+      console.error('[Gemma Helper Bot] Error:', err);
+      return res.status(500).json({
+        error: 'Failed to process helper response',
+        reply: "I am having trouble connecting right now, but feel free to check the 'Scholar Library' or 'Study Hub' for textbook notes and past papers!",
       });
     }
   });

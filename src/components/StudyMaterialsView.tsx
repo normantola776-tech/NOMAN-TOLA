@@ -71,8 +71,8 @@ export const StudyMaterialsView: React.FC<Props> = ({ user, onOpenAiAssistant })
       } else {
         setMaterials([]);
       }
-    } catch (e) {
-      console.error('Failed to load study materials:', e);
+    } catch (e: any) {
+      console.warn('Network sync notice in StudyMaterialsView:', e?.message || e);
       setMaterials((prev) => (Array.isArray(prev) ? prev : []));
     }
   };

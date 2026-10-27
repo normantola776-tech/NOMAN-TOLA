@@ -24,6 +24,7 @@ import { GoogleClassroomView } from './components/GoogleClassroomView.tsx';
 import { NotificationCenterModal } from './components/NotificationCenterModal.tsx';
 import { DownloadAppModal } from './components/DownloadAppModal.tsx';
 import { OfflineIndicator } from './components/OfflineIndicator.tsx';
+import { GemmaHelperBot } from './components/GemmaHelperBot.tsx';
 import {
   UserProfile,
   Tutor,
@@ -340,6 +341,7 @@ export default function App() {
           isOpen={true}
           onClose={() => setPayingSession(null)}
           onPaymentSuccess={handlePaymentSuccess}
+          onTriggerNotification={handleTriggerPushNotification}
         />
       )}
 
@@ -383,6 +385,12 @@ export default function App() {
       <DownloadAppModal
         isOpen={isDownloadModalOpen}
         onClose={() => setIsDownloadModalOpen(false)}
+      />
+
+      {/* Gemma Student Helper Bot (Floats across all web pages) */}
+      <GemmaHelperBot
+        user={currentUser}
+        currentView={activeTab}
       />
     </div>
   );

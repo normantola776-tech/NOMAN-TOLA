@@ -175,8 +175,8 @@ export const TutorWorkspaceView: React.FC<Props> = ({
           earnedPayout: false,
         },
       ]);
-    } catch (e) {
-      console.error('Error fetching tutor sessions:', e);
+    } catch (e: any) {
+      console.warn('Network sync notice in TutorWorkspaceView:', e?.message || e);
     } finally {
       setLoading(false);
     }

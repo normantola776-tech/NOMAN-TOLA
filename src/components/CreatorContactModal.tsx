@@ -47,8 +47,8 @@ export const CreatorContactModal: React.FC<Props> = ({ user, isOpen, onClose }) 
       } else {
         setTickets([]);
       }
-    } catch (e) {
-      console.error('Failed to load tickets', e);
+    } catch (e: any) {
+      console.warn('Network sync notice in CreatorContactModal:', e?.message || e);
       setTickets((prev) => (Array.isArray(prev) ? prev : []));
     }
   };

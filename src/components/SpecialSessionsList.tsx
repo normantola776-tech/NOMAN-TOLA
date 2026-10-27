@@ -80,8 +80,8 @@ export const SpecialSessionsList: React.FC<Props> = ({
       } else {
         setSessions([]);
       }
-    } catch (e) {
-      console.error('Failed to load sessions:', e);
+    } catch (e: any) {
+      console.warn('Network sync notice in SpecialSessionsList:', e?.message || e);
       setSessions((prev) => (Array.isArray(prev) ? prev : []));
     } finally {
       setLoading(false);

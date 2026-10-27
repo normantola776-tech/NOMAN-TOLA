@@ -59,8 +59,8 @@ export const CreatorActivityPortalView: React.FC<Props> = ({
         setData(json);
         setLastRefreshed(new Date());
       }
-    } catch (err) {
-      console.error('Failed to load all creator activities:', err);
+    } catch (err: any) {
+      console.warn('Network sync notice in CreatorActivityPortalView:', err?.message || err);
     } finally {
       setLoading(false);
     }

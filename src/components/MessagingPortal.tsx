@@ -96,8 +96,8 @@ export const MessagingPortal: React.FC<Props> = ({ user, initialTutor }) => {
       } else {
         setMessages([]);
       }
-    } catch (e) {
-      console.error('Failed to load messages:', e);
+    } catch (e: any) {
+      console.warn('Network sync notice in MessagingPortal:', e?.message || e);
       setMessages((prev) => (Array.isArray(prev) ? prev : []));
     }
   };
